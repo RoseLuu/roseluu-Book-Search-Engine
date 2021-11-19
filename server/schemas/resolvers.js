@@ -44,11 +44,11 @@ const resolvers = {
         );
       }
     },
-    removeBook: async (parent, { bookID }, context) => {
+    removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { saveBooks: bookID } },
+          { $pull: { saveBooks: bookId } },
           { new: true }
         );
       }

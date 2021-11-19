@@ -11,7 +11,7 @@ export const GET_ME = gql`
         authors
         description
         title
-        bookID
+        bookId
         link
         image
       }
