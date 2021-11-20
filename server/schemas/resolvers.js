@@ -8,7 +8,7 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).select(
+        const user = await User.findOne({ _id: context.user._id }).select(
           "-__v -password"
         ); //hide password
 
@@ -39,7 +39,7 @@ const resolvers = {
       if (context.user) {
         return User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $push: { saveBooks: bookData } },
+          { $addToSet: { savedBooks: bookData } },
           { new: true }
         );
       }
@@ -48,7 +48,7 @@ const resolvers = {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { saveBooks: bookId } },
+          { $pull: { savedBooks: bookId } },
           { new: true }
         );
       }
