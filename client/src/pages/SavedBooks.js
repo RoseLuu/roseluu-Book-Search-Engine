@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Jumbotron,
   Container,
@@ -15,13 +15,8 @@ import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutation";
 
 const SavedBooks = () => {
-  // const [userData, setUserData] = useState({});
-
-  // use this to determine if `useEffect()` hook needs to run again
-  // const userDataLength = Object.keys(userData).length;
-
   const { loading, data } = useQuery(GET_ME);
-  const [removeBook] = useMutation(REMOVE_BOOK);
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
   const userData = data?.me || {};
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -66,7 +61,7 @@ const SavedBooks = () => {
             : "You have no saved books!"}
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks?.map((book) => {
             return (
               <Card key={book.bookId} border="dark">
                 {book.image ? (

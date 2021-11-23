@@ -53,6 +53,7 @@ const SearchBooks = () => {
         authors: book.volumeInfo.authors || ["No author to display"],
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
+        link: book.volumeInfo.infoLink,
         image: book.volumeInfo.imageLinks?.thumbnail || "",
       }));
 
