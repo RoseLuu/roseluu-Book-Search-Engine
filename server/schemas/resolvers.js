@@ -8,11 +8,11 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findOne({ _id: context.user._id }).select(
+        const userDb = await User.findOne({ _id: context.user._id }).select(
           "-__v -password"
         ); //hide password
 
-        return user;
+        return userDb;
       }
       throw new AuthenticationError("Not logged in");
     },
@@ -39,7 +39,7 @@ const resolvers = {
       if (context.user) {
         return User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedBooks: bookData } },
+          { $push: { savedBooks: bookData } },
           { new: true }
         );
       }
@@ -48,7 +48,7 @@ const resolvers = {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedBooks: bookId } },
+          { $pull: { savedBooks: { bookId } } },
           { new: true }
         );
       }
